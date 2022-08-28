@@ -3,6 +3,20 @@
 Repository of useful snippets for upgrading your stable diffusion colab notebook. The goal of this is to make it easy to add improvements to your notebook, without having to start fresh with a different notebook every time you want a specific feature. Snippets aren't necessarily drap+drop, knowledge of coding might be required.
 
 
+## Saving to Google Drive
+
+### Move Files to Google Driver Folder
+
+The following moves files from Colab folder: `/content/stable-diffusion/outputs/txt2img-samples/samples/*` into Drive folder: `/content/drive/MyDrive/AI/stable_diffusion/` (Looks like "AI" > "stable_diffusion" in Drive). Finally, it deletes the files from Colab in preparation for the next run. Adjust paths to liking.
+
+<details>
+  <summary>Code</summary>
+  
+  ```py
+  !cp -r /content/stable-diffusion/outputs/txt2img-samples/samples/* /content/drive/MyDrive/AI/stable_diffusion/ && rm /content/stable-diffusion/outputs/txt2img-samples/samples/*
+  ```
+</details>
+
 ## Memory Leaks
 
 ### Clear memory leaks from exceptions
