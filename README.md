@@ -2,20 +2,7 @@
 
 Repository of useful snippets for upgrading your stable diffusion colab notebook. The goal of this is to make it easy to add improvements to your notebook, without having to start fresh with a different notebook every time you want a specific feature. Snippets aren't necessarily drap+drop, knowledge of coding might be required.
 
-
-## :cloud: Saving to Google Drive
-
-### Move Files to Google Driver Folder
-
-The following moves files from Colab folder: `/content/stable-diffusion/outputs/txt2img-samples/samples/*` into Drive folder: `/content/drive/MyDrive/AI/stable_diffusion/` (Looks like "AI" > "stable_diffusion" in Drive). Finally, it deletes the files from Colab in preparation for the next run. Adjust paths to liking.
-
-<details>
-  <summary>Code</summary>
-  
-  ```py
-  !cp -r /content/stable-diffusion/outputs/txt2img-samples/samples/* /content/drive/MyDrive/AI/stable_diffusion/ && rm /content/stable-diffusion/outputs/txt2img-samples/samples/*
-  ```
-</details>
+## :floppy_disk: Image Files
 
 ### Using filenames that have the prompt, seed, and datetime.
 
@@ -45,6 +32,44 @@ Changes inference code to put the prompt in the filename, with the seed and date
   ```
 </details>
 
+### Embedding prompt and config in images as EXIF data
+
+Embed the prompt string and the config data used to generate the prompt into the image file as EXIF data. The code below shows the commented-out before, and after. Note that the before code is using the custom filename code snippet. So, the `imgPath` variable might need to be modified. Update "artist" and add copyright if desired.
+
+<details>
+  <summary>Code</summary>
+
+  ```py
+  imgPath = f'{slugPrompt[:150]}_{opt.seed}_{datetimeStr}_{base_count:05}.png'
+  #Image.fromarray(x_sample.astype(np.uint8)).save(
+  #    os.path.join(sample_path, imgPath))
+
+  img = Image.fromarray(x_sample.astype(np.uint8)) # Image.open(imgPath)
+  metadata = PngInfo()
+  metadata.add_text("artist", 'Your Name')
+  metadata.add_text("copyright", 'Public Domain')
+  metadata.add_text("software", "Stable Diffusion 1.4")
+  metadata.add_text("title", opt.prompt)
+  config = f"prompt: {opt.prompt}, seed: {seed}, steps: {opt.ddim_steps}, CGS: {opt.scale}"
+  metadata.add_text("config", config)
+  img.save(os.path.join(sample_path, imgPath), pnginfo=metadata)
+  ```
+</details>
+
+## :cloud: Saving to Google Drive
+
+### Move Files to Google Driver Folder
+
+The following moves files from Colab folder: `/content/stable-diffusion/outputs/txt2img-samples/samples/*` into Drive folder: `/content/drive/MyDrive/AI/stable_diffusion/` (Looks like "AI" > "stable_diffusion" in Drive). Finally, it deletes the files from Colab in preparation for the next run. Adjust paths to liking.
+
+<details>
+  <summary>Code</summary>
+  
+  ```py
+  !cp -r /content/stable-diffusion/outputs/txt2img-samples/samples/* /content/drive/MyDrive/AI/stable_diffusion/ && rm /content/stable-diffusion/outputs/txt2img-samples/samples/*
+  ```
+</details>
+
 ## :warning: Memory Leaks
 
 ### Clear memory leaks from exceptions
@@ -68,7 +93,7 @@ Exceptions in Colab will hold all objects in memory. If you start a new run whic
   ```
 </details>
 
-## :computer: Batching
+## :desktop_computer: Batching
 
 ### Prevent Colab from clearing the previous image when doing multiple runs
 
@@ -148,9 +173,3 @@ Pulling and re-installing is kind of a pain. This code pulls from the repo, then
   ```
   
 </details>
-
-
-## TODO
-
-### Add config to image as EXIF data
-
