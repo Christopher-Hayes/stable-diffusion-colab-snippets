@@ -60,3 +60,47 @@ Note that `clear_output()` in Colab will of course clear the output produced by 
   ```
 </details>
 
+### Running a Batch of Seeds
+
+Code to run the inference multiple times, each time with a new seed, from a comma-separated input string.
+
+<details>
+  <summary>Code</summary>
+
+  The widget code needs to modify the seed object. Renamed "seeds", widget type is now `Text`.
+  ```py
+  widget_opt['seeds'] = widgets.Text(
+      layout=layout, style=style,
+      description='multiple seeds for batch runs (separate by comma',
+      value='42',
+      disabled=False
+  )
+  ```
+  
+  Modified run inference code.
+  ```py
+  
+  # Create an object for the individual seed that mimics the Widget object
+  class Option:
+    def __init__(self, seed):
+      self.value = seed
+    def __str__(self):
+      return self.value
+
+  # Get iterable list from widget seeds string
+  widgetDict = get_widget_extractor(widget_opt)
+  
+  # Split seeds string into individual seed values. Remove hanging empty value if it ends with a comma
+  seeds = [s for s in widgetDict['seeds'].value.split(',') if s]
+  
+  # Run batch
+  for seed in seeds:
+      # Add seed to dict manually
+      widgetDict['seed'] = Option(int(seed))
+      # Run inference
+      run(widgetDict)
+      print('Done! Seed is:', seed, end='\n\n')
+
+  print('Batch complete!')
+  ```
+</details>
