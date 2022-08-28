@@ -17,6 +17,34 @@ The following moves files from Colab folder: `/content/stable-diffusion/outputs/
   ```
 </details>
 
+### Using filenames that have the prompt, seed, and datetime.
+
+Changes inference code to put the prompt in the filename, with the seed and datetime as well. Datetime is mainly added to ensure filenames are unique, but might be able to be removed without issue.
+
+<details>
+  <summary>Code</summary>
+
+  Code to create variables for datetime and slugPrompt. A "slug" version of the prompt is created that is filename friendly. This code is in the `run_inference()` method, before the for loop stuff.
+  ```py
+  # * Variables for saved image filenames
+  # date + time
+  datetimeStr = datetime.datetime.now().isoformat()
+  # Filename-safe prompt string
+  slugPrompt = "".join(c if c.isalnum() else "_" for c in opt.prompt)
+  ```
+  
+  The image file saving code with the new filename setup. Note that the prompt is limited to 150 characters. Linux has a limit of ~255 characters, need to ensure the whole filename stays under that.
+  ```py
+  Image.fromarray(x_sample.astype(np.uint8)).save(
+      os.path.join(sample_path, f'{slugPrompt[:150]}_{opt.seed}_{datetimeStr}_{base_count:05}.png'))
+  ```
+  
+  The same thing for grid:
+  ```py
+  Image.fromarray(grid.astype(np.uint8)).save(os.path.join(outpath, f'grid-{slugPrompt[:150]}_{opt.seed}_{datetimeStr}_{grid_count:04}.png'))
+  ```
+</details>
+
 ## :warning: Memory Leaks
 
 ### Clear memory leaks from exceptions
