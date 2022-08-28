@@ -132,3 +132,24 @@ Code to run the inference multiple times, each time with a new seed, from a comm
   print('Batch complete!')
   ```
 </details>
+
+## Misc
+
+### Re-pull stable-diffusion repo and reinstall package.
+
+Pulling and re-installing is kind of a pain. This code pulls from the repo, then reinstalls, but that's usually not enough. Might have to restart the runtime to get it to use the latest version of library, still trying tweaking this one.
+
+<details>
+  <summary>Code</summary>
+  ```py
+  !cd /content/stable-diffusion && git pull origin
+  !pip install --upgrade --no-deps --force-reinstall -e .
+  ```
+  
+</details>
+
+
+## TODO
+
+### Add config to image as EXIF data
+
