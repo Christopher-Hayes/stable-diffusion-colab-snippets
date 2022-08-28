@@ -3,7 +3,7 @@
 Repository of useful snippets for upgrading your stable diffusion colab notebook. The goal of this is to make it easy to add improvements to your notebook, without having to start fresh with a different notebook every time you want a specific feature. Snippets aren't necessarily drap+drop, knowledge of coding might be required.
 
 
-## Saving to Google Drive
+## :cloud: Saving to Google Drive
 
 ### Move Files to Google Driver Folder
 
@@ -17,7 +17,7 @@ The following moves files from Colab folder: `/content/stable-diffusion/outputs/
   ```
 </details>
 
-## Memory Leaks
+## :warning: Memory Leaks
 
 ### Clear memory leaks from exceptions
 
@@ -40,7 +40,7 @@ Exceptions in Colab will hold all objects in memory. If you start a new run whic
   ```
 </details>
 
-## Batching
+## :computer: Batching
 
 ### Prevent Colab from clearing the previous image when doing multiple runs
 
