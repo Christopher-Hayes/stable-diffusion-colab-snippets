@@ -141,6 +141,7 @@ Pulling and re-installing is kind of a pain. This code pulls from the repo, then
 
 <details>
   <summary>Code</summary>
+  
   ```py
   !cd /content/stable-diffusion && git pull origin
   !pip install --upgrade --no-deps --force-reinstall -e .
