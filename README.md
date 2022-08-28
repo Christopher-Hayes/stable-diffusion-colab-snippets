@@ -40,3 +40,23 @@ Exceptions in Colab will hold all objects in memory. If you start a new run whic
   ```
 </details>
 
+## Batching
+
+### Prevent Colab from clearing the previous image when doing multiple runs
+
+Note that `clear_output()` in Colab will of course clear the output produced by the code. For the dream code, this includes the image output, so remove that from the inference code if you're running a batch and want every image to show.
+
+
+<details>
+  <summary>Code</summary>
+  
+  Colab notebooks vary quite a bit. But, try looking for the code below and comment out the `clear_output()` as shown.
+  
+  ```py
+  # display
+  if opt.display_inline:
+      #clear_output()
+      display(Image.fromarray(grid.astype(np.uint8)))
+  ```
+</details>
+
